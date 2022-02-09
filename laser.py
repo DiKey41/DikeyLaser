@@ -16,7 +16,7 @@ while(True):
    
    # cv2.imshow('frame',resized)
 
-    r_channel=resized[:,:,2]
+    r_channel=mask[:,:,2]
 
     
     
