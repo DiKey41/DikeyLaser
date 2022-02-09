@@ -38,51 +38,16 @@ while(True):
         cv2.imshow('Detect',roImg)
         roImg=cv2.resize(roImg,(64,64))
         roImg=cv2.inRange(roImg,(89,124,73),(255,255,255))
-        cv2.imshow("resizeDetect",roImg)
+        thresh = cv2.inRange(hsv, hsv_min, hsv_max)
+        moments = cv2.moments(thresh, 1)
+        area = moments['m00']
+        print(area)
+        if area > tresh_hole:
+            return True
+        return False
         
-        noDrive_val=0
-        forward_val=0
-        left_val=0
-        right_val=0
-        forwardleft_val=0
-        forwardright_val=0
-        
-        
-        for i in range(64):
-            for j in range(64):
-                if roImg[i][j]==noDrive[i][j]:
-                    noDrive_val+=1
-                if roImg[i][j]==forward[i][j]:
-                    forward_val+=1
-                if roImg[i][j]==forwardleft[i][j]:
-                    forwardleft_val+=1
-                if roImg[i][j]==forwardright[i][j]:
-                    forwardright_val+=1
-                if roImg[i][j]==left[i][j]:
-                    left_val+=1
-                if roImg[i][j]==right[i][j]:
-                    right_val+=1
-                    
-      #  print('noDrive: ',noDrive_val)
-        print('forward: ',forward_val)
-      #  print('left: ',left_val)
-      #  print('right: ',right_val)
-        print('forward left: ',forwardleft_val)
-      #  print('forward right: ',forwardright_val)
-                
-        if noDrive_val>2700:
-           print('noDrive')
-        elif forward_val>3400:
-            print('forward')
-        elif left_val>3400:
-            print('left')
-        elif right_val>3050:
-            print('right')
-        elif forwardleft_val>2400:
-            print('forward left')
-        elif forwardright_val>2500:
-            print('forward right')
-        else: print('nothing')
+    
+
         
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
